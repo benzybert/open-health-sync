@@ -78,6 +78,7 @@ type renderEnv struct {
 type renderService struct {
 	Type    string `yaml:"type"`
 	Name    string `yaml:"name"`
+	Region  string `yaml:"region"`
 	Runtime string `yaml:"runtime"`
 	Image   *struct {
 		URL string `yaml:"url"`

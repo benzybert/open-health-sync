@@ -14,6 +14,9 @@ services:
   # Postgres 17 with TimescaleDB, reachable only on the private network.
   - type: pserv
     name: ohs-db
+    # Frankfurt, next to the oura-care-platform app (Vercel fra1, Supabase
+    # eu-central-1). The region cannot change after the first deploy.
+    region: frankfurt
     runtime: image
     image:
       # Same multi-arch digest as deploy/docker-compose.yml.
@@ -35,6 +38,7 @@ services:
 
   - type: web
     name: ohs
+    region: frankfurt
     runtime: docker
     dockerfilePath: ./deploy/Dockerfile
     dockerContext: .
@@ -79,4 +83,7 @@ services:
       # Creates this tenant at first start and logs its API key once
       # (docs/deploy-platforms.md). Leave empty to create tenants later.
       - key: OHS_BOOTSTRAP_TENANT
-        sync: false
+        value: oura-care
+      # The admin console at /console: turn providers on and save their keys.
+      - key: OHS_CONSOLE
+        value: "true"
