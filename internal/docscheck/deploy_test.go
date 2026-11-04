@@ -129,8 +129,9 @@ func TestRenderBlueprint(t *testing.T) {
 	if web.HealthCheckPath != "/readyz" {
 		t.Errorf("render.yaml: health check %q, want /readyz", web.HealthCheckPath)
 	}
-	if web.MaxShutdownDelaySeconds < 30 {
-		t.Errorf("render.yaml: maxShutdownDelaySeconds %d is shorter than the 25 s ohs drains for, plus margin", web.MaxShutdownDelaySeconds)
+	// Render refuses maxShutdownDelaySeconds on a service with a disk.
+	if web.MaxShutdownDelaySeconds != 0 && web.Disk != nil {
+		t.Error("render.yaml: maxShutdownDelaySeconds is not supported for a service with a disk")
 	}
 	if web.Disk == nil || web.Disk.MountPath != rawMount {
 		t.Errorf("render.yaml: ohs needs a disk on %s", rawMount)

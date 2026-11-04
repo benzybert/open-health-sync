@@ -44,8 +44,8 @@ services:
     dockerContext: .
     # No dockerCommand: the image runs `ohs up` (migrations, then serve).
     healthCheckPath: /readyz
-    # ohs gives work in flight 25 s after SIGTERM, plus a margin.
-    maxShutdownDelaySeconds: 35
+    # No maxShutdownDelaySeconds: Render refuses it on a service with a disk
+    # ("max shutdown delay is not supported for services with a disk").
     disk:
       name: raw
       mountPath: /var/lib/ohs/raw
