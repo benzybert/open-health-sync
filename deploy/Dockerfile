@@ -29,7 +29,8 @@ LABEL io.modelcontextprotocol.server.name="io.github.soma-intelligence/open-heal
       org.opencontainers.image.licenses="AGPL-3.0-only"
 COPY --from=build /out/ohs /ohs
 COPY --from=build --chown=65532:65532 /out/raw /var/lib/ohs/raw
-VOLUME /var/lib/ohs/raw
+# No VOLUME instruction: Railway refuses it ("docker VOLUME is not supported,
+# use Railway Volumes"). Compose and the platforms mount their own volume here.
 EXPOSE 8080
 # The distroless nonroot user. Hosting platforms that mount their volumes
 # owned by root (Fly.io, Render) build with --build-arg IMAGE_UID=0 so ohs can
